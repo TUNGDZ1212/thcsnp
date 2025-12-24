@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch Sử Phát Triển Trường Trung Học Cơ Sở Ngọc Phụng</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ffebee, #ffcdd2); /* Nền hồng đỏ nhẹ */
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+        /* Họa tiết cờ VN: Dải đỏ vàng và ngôi sao vàng */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                #dc3545 0px,
+                #dc3545 10px,
+                #ffeb3b 10px,
+                #ffeb3b 20px
+            );
+            opacity: 0.05; /* Nhẹ nhàng */
+            pointer-events: none;
+            z-index: -2;
+        }
+        body::before {
+            content: '⭐'; /* Ngôi sao vàng */
+            position: fixed;
+            top: 10%;
+            right: 10%;
+            font-size: 50px;
+            color: #ffeb3b;
+            opacity: 0.3;
+            animation: twinkle 3s infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+        header {
+            background: linear-gradient(135deg, #dc3545, #b02a37); /* Đỏ đậm */
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            animation: slideDown 1s ease-out;
+        }
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        header p {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .main-content {
+            flex: 2;
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .main-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(220,53,69,0.3); /* Đỏ */
+        }
+        .sidebar {
+            flex: 1;
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .sidebar:hover {
+            transform: scale(1.02);
+        }
+        .sidebar h3 {
+            color: #dc3545; /* Đỏ */
+            border-bottom: 2px solid #dc3545;
+            padding-bottom: 10px;
+        }
+        .timeline {
+            list-style: none;
+            padding: 0;
+        }
+        .timeline li {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+            animation: fadeIn 1s ease-in-out forwards;
+            opacity: 0;
+        }
+        .timeline li:nth-child(1) { animation-delay: 0.2s; }
+        .timeline li:nth-child(2) { animation-delay: 0.4s; }
+        .timeline li:nth-child(3) { animation-delay: 0.6s; }
+        .timeline li:nth-child(4) { animation-delay: 0.8s; }
+        .timeline li:nth-child(5) { animation-delay: 1s; }
+        .timeline li:nth-child(6) { animation-delay: 1.2s; }
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .timeline li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            background: #dc3545; /* Đỏ */
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        section {
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-in-out forwards;
+            opacity: 0;
+        }
+        section:nth-child(1) { animation-delay: 0.5s; }
+        section:nth-child(2) { animation-delay: 1s; }
+        section:nth-child(3) { animation-delay: 1.5s; }
+        section:nth-child(4) { animation-delay: 2s; } /* Thêm delay cho section mới */
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h2 {
+            color: #dc3545; /* Đỏ */
+            border-left: 5px solid #dc3545;
+            padding-left: 15px;
+            margin-bottom: 15px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            padding: 5px 0;
+            position: relative;
+            padding-left: 20px;
+        }
+        ul li::before {
+            content: '✓';
+            color: #28a745; /* Giữ xanh lá cho checkmark */
+            position: absolute;
+            left: 0;
+        }
+        /* Gallery hình ảnh */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .gallery img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .gallery img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #dc3545, #b02a37); /* Đỏ */
+            color: white;
+            margin-top: 20px;
+        }
+        @media (max-width: 768px) {
+            .container { flex-direction: column; }
+            header h1 { font-size: 2em; }
+            .gallery { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🏫Sự Phát Triển Trường Trung Học Cơ Sở Ngọc Phụng</h1>
+        <p>Khám về Trường THCS Ngọc Phụng</p>
+    </header>
+    
+    <div class="container">
+        <div class="main-content">
+            <section>
+                <h2>📅 Ngày tựu trường năm học 2025-2026</h2>
+                <p>Sáng ngày 29/8/2025 Trường THCS Ngọc Phụng tổ chức ngày lễ tựu trường, về dự với buổi lễ có Thầy giáo Nguyễn Viết Dũng Bí Thư chi bộ, HT nhà trường cùng toàn thể cán bộ GV,NV và các em học sinh trong nhà trường, công tác chuẩn bị đã hoàn tất cho năm học mới 2025-2026.</p>
+            </section>
+            <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.30808-6/540793576_3083639505150558_903031395072158321_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeFD58qzxxSOIjYx2WDmnIdbKyn5TJ-TET4rKflMn5MRPouURpb6TCOOLEhw_GtdWte1hYBr3BnMjuw-5qA-xmAN&_nc_ohc=2WNwQyBfvvMQ7kNvwElL_Hf&_nc_oc=AdmJJlpvGZ5t3-n7QIhkQwmTj7gguiONStDY6yGXjhymj_uy0FD_LcL-Y0FyYBmtOQqdlPmRbJu2zgWbyD6OcfoP&_nc_zt=23&_nc_ht=scontent-tpe1-1.xx&_nc_gid=TUm7yyTIym2r-FKRO095Bw&oh=00_Afm0yfbIVg79UoowIQmRDOQLyDqaWggSzV90AB4kWwxw4w&oe=69518B44" alt="Hình ảnh ngày tựu trường năm 2025">
+            <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.30808-6/540674295_3083639515150557_6625978675374212754_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeEuBGC0lLrO6NKWpeCGJssrm_cX45OYqV6b9xfjk5ipXrzBZ-i8iDBOafOaM9gdf8dBBH4hmoMq9b6SbqbsTGFH&_nc_ohc=u5hKczRA0UcQ7kNvwFArRXf&_nc_oc=AdnN_WQQe2C306Q1CbZyk2XFmZbpUs7gBED_qldzp2mvbtH-bs1F1d3irEPnyMZdEscixsXdQa9YBTxxkkXJG3Ja&_nc_zt=23&_nc_ht=scontent-tpe1-1.xx&_nc_gid=44OMb6kA20KGeV3I_oVO_g&oh=00_AflUMD3rCJIx8kvxF-BDSgNwTz2tFWGUShOTbraO7tK00g&oe=69516D75" alt="Hình ảnh ngày tựu trường năm 2025">
+            <h5>Hình ảnh Trường THCS Ngọc Phụng chào đón ngày tựu trường</h5>
+            <section>
+                <h2>📅 Ngày khai giảng năm học 2025-2026</h2>
+                <p>Sáng ngày 5/9/2025 Trường THCS Ngọc Phụng tổ chức lễ khai giảng cùng với sự hân hoan, sự chào đón của các bạn học sinh và những giáo viên nhiều kinh nghiệm trong nghề, về dự với buổi lễ có Thầy giáo Nguyễn Viết Dũng Bí Thư chi bộ, HT nhà trường cùng toàn thể cán bộ GV,NV và các em học sinh trong nhà trường, công tác chuẩn bị đã hoàn tất cho năm học mới 2025-2026. </p>
+                <img src="https://scontent-sin6-2.xx.fbcdn.net/v/t39.30808-6/542139576_3090541141127061_6868931036402489286_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeEuF6TdsY1SmEVaYzmxpWqrnK60TJNnNwScrrRMk2c3BLqmXsUodktRvAxFdexZjQ3dQe5IF7tyuD-m_LBvknPF&_nc_ohc=la13VFW0CxgQ7kNvwHOmj5n&_nc_oc=Adkf5Tmco15uJl8Sy-1lz6ZfFdEKfedbi81gdU-K50Ov_QBoxOVQrZ6huVMPonw2qAp8Ear8whqmtbg9haFDqWfv&_nc_zt=23&_nc_ht=scontent-sin6-2.xx&_nc_gid=1_Dx5Z-OgzZtrcLSH82QbQ&oh=00_AfnE80IakEeWv0RiO6bTU3nZxaa9-HJjJSWefKcCHHwCbA&oe=69517F47" alt="Hình ảnh ngày khai giảng năm 2025">
+                <img src="https://scontent-sin11-1.xx.fbcdn.net/v/t39.30808-6/543062851_3090541191127056_7637014860316317664_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeEHrpjziXXFy8NCEmxJ1COmQg5rHSTeWJVCDmsdJN5YlQiH2mZSlWdFJNpgRSp0a1kCXZDmB8KguYEdV8RZXcfF&_nc_ohc=blHPT6FCrygQ7kNvwGDpHU9&_nc_oc=AdmSto4-FJFueZTf-LeGYnY48kEIVXiAfomgfdfKDn04qx01po56zDR5zqOyIPOsZ3eT5isAuFSAwTzS9Ounqt6J&_nc_zt=23&_nc_ht=scontent-sin11-1.xx&_nc_gid=Xf0e2w28gAkp2qSUdD8Sgg&oh=00_AfkxFFHm1IaLFiOmLnb8UNGVcGdnsoorkLvw2Fu60eOFVw&oe=69518B8A" alt="">
+                <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.30808-6/543420374_3090541034460405_4504814107454727545_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeGnNY7Q7mLDLx3z3jkDHVNfnwbgQD874H2fBuBAPzvgfWNQd3iV8CjUiKO6yrVYhDHh7H4b_Dvdo2BdTK0jofXh&_nc_ohc=LrmovUXIbboQ7kNvwG1Fwr0&_nc_oc=AdkysRWtO2_Y_E8SX12jiF_dr5DATWnX2o8y8MYBNiW5IuPzCLbQYNHP9FVJ0cq87S9cGAPHiF4QBmofoGqjde3O&_nc_zt=23&_nc_ht=scontent-tpe1-1.xx&_nc_gid=LcR_4CStw3iSHlzn_K7ofA&oh=00_AfktSDls3g-xPB1sM8LTbVe-abCOX3XKuxt1WFyqT_3UBQ&oe=695195D6" alt="">
+                <h5>Hình ảnh Trường THCS Ngọc Phụng chào đón ngày khai giảng</h3>
+            </section>
+            
+            <section>
+                <h2>💊 Tuyên truyền phòng chống ma túy</h2>
+                <p>Bảo vệ sức khỏe và sự phát triển của học sinh
+Ma túy gây hại nghiêm trọng đến thể chất, tinh thần và trí não. Phòng chống ma túy giúp học sinh THCS phát triển lành mạnh, học tập tốt và có tương lai ổn định.
+
+
+Xây dựng môi trường học đường an toàn, lành mạnh
+Khi không có ma túy, nhà trường sẽ giảm được các hành vi bạo lực, vi phạm kỷ luật, tệ nạn xã hội, từ đó tạo môi trường học tập tích cực và thân thiện.
+
+
+Giáo dục ý thức và kỹ năng sống cho học sinh
+Hoạt động phòng chống ma túy giúp học sinh hiểu rõ tác hại của ma túy, biết cách từ chối, tránh xa cám dỗ và tự bảo vệ bản thân.
+
+
+Góp phần giữ gìn trật tự, an toàn xã hội
+Trường học là nơi đào tạo thế hệ trẻ. Phòng chống ma túy trong trường THCS góp phần ngăn chặn tệ nạn từ sớm, giảm nguy cơ phát sinh tội phạm trong xã hội.
+
+
+Thể hiện trách nhiệm của nhà trường, gia đình và xã hội
+Công tác này giúp tăng sự phối hợp giữa nhà trường – gia đình – xã hội trong việc giáo dục, quản lý và bảo vệ học sinh.
+<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.30808-6/548384318_3100806786767163_6520586703828582384_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeEnI1NYOVxV6D06LlNpK3pfAEMksE26phkAQySwTbqmGf8lTGTLUZQdHKg5ZoqFKF6zqTU4IR6zO-DoIZAH4CnV&_nc_ohc=6mT214ir7MQQ7kNvwFBnL11&_nc_oc=AdkD6Y-T_WLGqMuxhFywuFrGt6BZ2pQ83kTaSXbqJkV8N2J-xItiutkSwvFq9JBZYMcrvBEZOf9vI34b1cWzA4Dp&_nc_zt=23&_nc_ht=scontent-tpe1-1.xx&_nc_gid=7RN2Nm-ywUR7QxuJPCiwIA&oh=00_Afk1sL_nW_xLK8ZEslwawjnR6mvzEWtiPu7mBuGJ-9bB4w&oe=695172A2" alt="">
+<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.30808-6/547566901_3100806743433834_8237959871176888234_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeEG1DINonAEYB4ap-jokzibfrFsq9GGGFR-sWyr0YYYVG8AHqUCnU9BG1FXajmr8HfhGbk-0qLS4xVoSC4KVa_-&_nc_ohc=8vqmuWZWuIUQ7kNvwGDGDa0&_nc_oc=Adkgq3rh4EUeIZtqY74Xymb0zl69mk55eh4azcPDZD9AW7nCSD6hRiWHB8lH1-xJcGLBW07MaPZMgGQtIA-DlPc-&_nc_zt=23&_nc_ht=scontent-tpe1-1.xx&_nc_gid=1u-bnjZJxyJCAQjJQ0kH0Q&oh=00_AflkBrwQKbGjMPkna65dSFt1QNdpbLyJFBiBRUsw_sfoqg&oe=69517E5C" alt="">
+<h5>Hình ảnh Trường THCS Ngọc Phụng tuyên truyền phòng chống ma túy</h5>
+            </section>
+            
+            <section>
+                <h2>📋 Thời Khóa Biểu</h2>
+                <p>Thời khóa biểu (Nên zoom lên để đọc).</p>
+                <div class="gallery">
+                     <img src="https://cdn.discordapp.com/attachments/1423966484656296057/1453318568170225686/image.png?ex=694d03e4&is=694bb264&hm=37d962a53dc2c17fd1960370de6188caf0242b3126d1f4e9c2332031da430d1f" alt="Thời khóa biểu của tất cả các lớp">
+                </div>
+            </section>
+        </div>
+    
+    <footer>
+      <p>&copy; Code by Nguyễn Đình Sơn Tùng</p>
+    </footer>
+</body>
+</html>
