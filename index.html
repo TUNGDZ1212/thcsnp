@@ -3,314 +3,472 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lịch Sử Phát Triển Trường Trung Học Cơ Sở Ngọc Phụng</title>
+    <title>Cổng Thông Tin - Trường THCS Ngọc Phụng</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #ffebee, #ffcdd2); /* Nền hồng đỏ nhẹ */
-            color: #333;
-            line-height: 1.6;
-            overflow-x: hidden;
-            position: relative;
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        :root {
+            --p: #6366f1; --pd: #4f46e5; --s: #10b981; --a: #f59e0b; --d: #f43f5e;
+            --bg: #f8fafc; --sidebar: 280px;
         }
-        /* Họa tiết cờ VN: Dải đỏ vàng và ngôi sao vàng */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                45deg,
-                #dc3545 0px,
-                #dc3545 10px,
-                #ffeb3b 10px,
-                #ffeb3b 20px
-            );
-            opacity: 0.05; /* Nhẹ nhàng */
-            pointer-events: none;
-            z-index: -2;
+
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: #1e293b; overflow: hidden; }
+
+        /* --- HỆ THỐNG CẤU TRÚC GRID (LAYOUT SYSTEM) --- */
+        .app-container { display: grid; grid-template-columns: var(--sidebar) 1fr; height: 100vh; width: 100vw; }
+        .sidebar { background: #ffffff; border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; z-index: 100; }
+        .viewport { overflow-y: auto; display: flex; flex-direction: column; scroll-behavior: smooth; position: relative; }
+
+        /* --- COMPONENT: ULTRA CARD --- */
+        .u-card {
+            background: #ffffff; border-radius: 28px; border: 1px solid rgba(226, 232, 240, 0.6);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.01);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        body::before {
-            content: '⭐'; /* Ngôi sao vàng */
-            position: fixed;
-            top: 10%;
-            right: 10%;
-            font-size: 50px;
-            color: #ffeb3b;
-            opacity: 0.3;
-            animation: twinkle 3s infinite;
-            pointer-events: none;
-            z-index: -1;
-        }
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(1.1); }
-        }
-        header {
-            background: linear-gradient(135deg, #dc3545, #b02a37); /* Đỏ đậm */
-            color: white;
-            text-align: center;
-            padding: 40px 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            animation: slideDown 1s ease-out;
-        }
-        @keyframes slideDown {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2.5em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        header p {
-            font-size: 1.2em;
-            margin-top: 10px;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .main-content {
-            flex: 2;
-            background-color: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .main-content:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(220,53,69,0.3); /* Đỏ */
-        }
-        .sidebar {
-            flex: 1;
-            background-color: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-        .sidebar:hover {
-            transform: scale(1.02);
-        }
-        .sidebar h3 {
-            color: #dc3545; /* Đỏ */
-            border-bottom: 2px solid #dc3545;
-            padding-bottom: 10px;
-        }
-        .timeline {
-            list-style: none;
-            padding: 0;
-        }
-        .timeline li {
-            margin-bottom: 15px;
-            padding-left: 20px;
-            position: relative;
-            animation: fadeIn 1s ease-in-out forwards;
-            opacity: 0;
-        }
-        .timeline li:nth-child(1) { animation-delay: 0.2s; }
-        .timeline li:nth-child(2) { animation-delay: 0.4s; }
-        .timeline li:nth-child(3) { animation-delay: 0.6s; }
-        .timeline li:nth-child(4) { animation-delay: 0.8s; }
-        .timeline li:nth-child(5) { animation-delay: 1s; }
-        .timeline li:nth-child(6) { animation-delay: 1.2s; }
-        @keyframes fadeIn {
-            to { opacity: 1; transform: translateX(0); }
-        }
-        .timeline li::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 5px;
-            width: 10px;
-            height: 10px;
-            background: #dc3545; /* Đỏ */
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-        section {
-            margin-bottom: 30px;
-            animation: fadeInUp 1s ease-in-out forwards;
-            opacity: 0;
-        }
-        section:nth-child(1) { animation-delay: 0.5s; }
-        section:nth-child(2) { animation-delay: 1s; }
-        section:nth-child(3) { animation-delay: 1.5s; }
-        section:nth-child(4) { animation-delay: 2s; } /* Thêm delay cho section mới */
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
-        h2 {
-            color: #dc3545; /* Đỏ */
-            border-left: 5px solid #dc3545;
-            padding-left: 15px;
-            margin-bottom: 15px;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        ul li {
-            padding: 5px 0;
-            position: relative;
-            padding-left: 20px;
-        }
-        ul li::before {
-            content: '✓';
-            color: #28a745; /* Giữ xanh lá cho checkmark */
-            position: absolute;
-            left: 0;
-        }
-        /* Gallery hình ảnh */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 10px;
-        }
-        .gallery img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .gallery img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        footer {
-            text-align: center;
-            padding: 15px;
-            background: linear-gradient(135deg, #dc3545, #b02a37); /* Đỏ */
-            color: white;
-            margin-top: 20px;
-        }
-        @media (max-width: 768px) {
-            .container { flex-direction: column; }
-            header h1 { font-size: 2em; }
-            .gallery { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+        .u-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05); }
+
+        /* --- COMPONENT: BUTTONS --- */
+        .btn-p { background: var(--p); color: white; padding: 1rem 2rem; border-radius: 18px; font-weight: 800; transition: all 0.2s; box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3); }
+        .btn-p:hover { background: var(--pd); transform: scale(1.02); }
+        .btn-p:active { transform: scale(0.98); }
+
+        /* --- COMPONENT: INPUTS --- */
+        .i-premium { width: 100%; padding: 1.2rem; border-radius: 18px; background: #f1f5f9; border: 2px solid transparent; transition: all 0.3s; outline: none; }
+        .i-premium:focus { background: white; border-color: var(--p); box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
+
+        /* --- ANIMATIONS & UTILS --- */
+        [x-cloak] { display: none !important; }
+        .glass { background: rgba(255,255,255,0.8); backdrop-filter: blur(15px); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+
+        /* --- MOBILE RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .app-container { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
         }
     </style>
 </head>
-<body>
-    <header>
-        <h1>🏫Sự Phát Triển Trường Trung Học Cơ Sở Ngọc Phụng</h1>
-        <p>Khám về Trường THCS Ngọc Phụng</p>
-    </header>
-    
-    <div class="container">
-        <div class="main-content">
-            <section>
-                <h2>📅 Ngày tựu trường năm học 2025-2026</h2>
-                <p>Sáng ngày 29/8/2025 Trường THCS Ngọc Phụng tổ chức ngày lễ tựu trường, về dự với buổi lễ có Thầy giáo Nguyễn Viết Dũng Bí Thư chi bộ, HT nhà trường cùng toàn thể cán bộ GV,NV và các em học sinh trong nhà trường, công tác chuẩn bị đã hoàn tất cho năm học mới 2025-2026.</p>
-            </section>
-            <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.30808-6/540793576_3083639505150558_903031395072158321_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeFD58qzxxSOIjYx2WDmnIdbKyn5TJ-TET4rKflMn5MRPouURpb6TCOOLEhw_GtdWte1hYBr3BnMjuw-5qA-xmAN&_nc_ohc=2WNwQyBfvvMQ7kNvwElL_Hf&_nc_oc=AdmJJlpvGZ5t3-n7QIhkQwmTj7gguiONStDY6yGXjhymj_uy0FD_LcL-Y0FyYBmtOQqdlPmRbJu2zgWbyD6OcfoP&_nc_zt=23&_nc_ht=scontent-tpe1-1.xx&_nc_gid=TUm7yyTIym2r-FKRO095Bw&oh=00_Afm0yfbIVg79UoowIQmRDOQLyDqaWggSzV90AB4kWwxw4w&oe=69518B44" alt="Hình ảnh ngày tựu trường năm 2025">
-            <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.30808-6/540674295_3083639515150557_6625978675374212754_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeEuBGC0lLrO6NKWpeCGJssrm_cX45OYqV6b9xfjk5ipXrzBZ-i8iDBOafOaM9gdf8dBBH4hmoMq9b6SbqbsTGFH&_nc_ohc=u5hKczRA0UcQ7kNvwFArRXf&_nc_oc=AdnN_WQQe2C306Q1CbZyk2XFmZbpUs7gBED_qldzp2mvbtH-bs1F1d3irEPnyMZdEscixsXdQa9YBTxxkkXJG3Ja&_nc_zt=23&_nc_ht=scontent-tpe1-1.xx&_nc_gid=44OMb6kA20KGeV3I_oVO_g&oh=00_AflUMD3rCJIx8kvxF-BDSgNwTz2tFWGUShOTbraO7tK00g&oe=69516D75" alt="Hình ảnh ngày tựu trường năm 2025">
-            <h5>Hình ảnh Trường THCS Ngọc Phụng chào đón ngày tựu trường</h5>
-            <section>
-                <h2>📅 Ngày khai giảng năm học 2025-2026</h2>
-                <p>Sáng ngày 5/9/2025 Trường THCS Ngọc Phụng tổ chức lễ khai giảng cùng với sự hân hoan, sự chào đón của các bạn học sinh và những giáo viên nhiều kinh nghiệm trong nghề, về dự với buổi lễ có Thầy giáo Nguyễn Viết Dũng Bí Thư chi bộ, HT nhà trường cùng toàn thể cán bộ GV,NV và các em học sinh trong nhà trường, công tác chuẩn bị đã hoàn tất cho năm học mới 2025-2026. </p>
-                <img src="https://scontent-sin6-2.xx.fbcdn.net/v/t39.30808-6/542139576_3090541141127061_6868931036402489286_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeEuF6TdsY1SmEVaYzmxpWqrnK60TJNnNwScrrRMk2c3BLqmXsUodktRvAxFdexZjQ3dQe5IF7tyuD-m_LBvknPF&_nc_ohc=la13VFW0CxgQ7kNvwHOmj5n&_nc_oc=Adkf5Tmco15uJl8Sy-1lz6ZfFdEKfedbi81gdU-K50Ov_QBoxOVQrZ6huVMPonw2qAp8Ear8whqmtbg9haFDqWfv&_nc_zt=23&_nc_ht=scontent-sin6-2.xx&_nc_gid=1_Dx5Z-OgzZtrcLSH82QbQ&oh=00_AfnE80IakEeWv0RiO6bTU3nZxaa9-HJjJSWefKcCHHwCbA&oe=69517F47" alt="Hình ảnh ngày khai giảng năm 2025">
-                <img src="https://scontent-sin11-1.xx.fbcdn.net/v/t39.30808-6/543062851_3090541191127056_7637014860316317664_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeEHrpjziXXFy8NCEmxJ1COmQg5rHSTeWJVCDmsdJN5YlQiH2mZSlWdFJNpgRSp0a1kCXZDmB8KguYEdV8RZXcfF&_nc_ohc=blHPT6FCrygQ7kNvwGDpHU9&_nc_oc=AdmSto4-FJFueZTf-LeGYnY48kEIVXiAfomgfdfKDn04qx01po56zDR5zqOyIPOsZ3eT5isAuFSAwTzS9Ounqt6J&_nc_zt=23&_nc_ht=scontent-sin11-1.xx&_nc_gid=Xf0e2w28gAkp2qSUdD8Sgg&oh=00_AfkxFFHm1IaLFiOmLnb8UNGVcGdnsoorkLvw2Fu60eOFVw&oe=69518B8A" alt="">
-                <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.30808-6/543420374_3090541034460405_4504814107454727545_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeGnNY7Q7mLDLx3z3jkDHVNfnwbgQD874H2fBuBAPzvgfWNQd3iV8CjUiKO6yrVYhDHh7H4b_Dvdo2BdTK0jofXh&_nc_ohc=LrmovUXIbboQ7kNvwG1Fwr0&_nc_oc=AdkysRWtO2_Y_E8SX12jiF_dr5DATWnX2o8y8MYBNiW5IuPzCLbQYNHP9FVJ0cq87S9cGAPHiF4QBmofoGqjde3O&_nc_zt=23&_nc_ht=scontent-tpe1-1.xx&_nc_gid=LcR_4CStw3iSHlzn_K7ofA&oh=00_AfktSDls3g-xPB1sM8LTbVe-abCOX3XKuxt1WFyqT_3UBQ&oe=695195D6" alt="">
-                <h5>Hình ảnh Trường THCS Ngọc Phụng chào đón ngày khai giảng</h3>
-            </section>
-            
-            <section>
-                <h2>💊 Tuyên truyền phòng chống ma túy</h2>
-                <p>Bảo vệ sức khỏe và sự phát triển của học sinh
-Ma túy gây hại nghiêm trọng đến thể chất, tinh thần và trí não. Phòng chống ma túy giúp học sinh THCS phát triển lành mạnh, học tập tốt và có tương lai ổn định.
+<body x-data="eduCore()" x-init="startSystem()">
 
-
-Xây dựng môi trường học đường an toàn, lành mạnh
-Khi không có ma túy, nhà trường sẽ giảm được các hành vi bạo lực, vi phạm kỷ luật, tệ nạn xã hội, từ đó tạo môi trường học tập tích cực và thân thiện.
-
-
-Giáo dục ý thức và kỹ năng sống cho học sinh
-Hoạt động phòng chống ma túy giúp học sinh hiểu rõ tác hại của ma túy, biết cách từ chối, tránh xa cám dỗ và tự bảo vệ bản thân.
-
-
-Góp phần giữ gìn trật tự, an toàn xã hội
-Trường học là nơi đào tạo thế hệ trẻ. Phòng chống ma túy trong trường THCS góp phần ngăn chặn tệ nạn từ sớm, giảm nguy cơ phát sinh tội phạm trong xã hội.
-
-
-Thể hiện trách nhiệm của nhà trường, gia đình và xã hội
-Công tác này giúp tăng sự phối hợp giữa nhà trường – gia đình – xã hội trong việc giáo dục, quản lý và bảo vệ học sinh.
-<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.30808-6/548384318_3100806786767163_6520586703828582384_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeEnI1NYOVxV6D06LlNpK3pfAEMksE26phkAQySwTbqmGf8lTGTLUZQdHKg5ZoqFKF6zqTU4IR6zO-DoIZAH4CnV&_nc_ohc=6mT214ir7MQQ7kNvwFBnL11&_nc_oc=AdkD6Y-T_WLGqMuxhFywuFrGt6BZ2pQ83kTaSXbqJkV8N2J-xItiutkSwvFq9JBZYMcrvBEZOf9vI34b1cWzA4Dp&_nc_zt=23&_nc_ht=scontent-tpe1-1.xx&_nc_gid=7RN2Nm-ywUR7QxuJPCiwIA&oh=00_Afk1sL_nW_xLK8ZEslwawjnR6mvzEWtiPu7mBuGJ-9bB4w&oe=695172A2" alt="">
-<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.30808-6/547566901_3100806743433834_8237959871176888234_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeEG1DINonAEYB4ap-jokzibfrFsq9GGGFR-sWyr0YYYVG8AHqUCnU9BG1FXajmr8HfhGbk-0qLS4xVoSC4KVa_-&_nc_ohc=8vqmuWZWuIUQ7kNvwGDGDa0&_nc_oc=Adkgq3rh4EUeIZtqY74Xymb0zl69mk55eh4azcPDZD9AW7nCSD6hRiWHB8lH1-xJcGLBW07MaPZMgGQtIA-DlPc-&_nc_zt=23&_nc_ht=scontent-tpe1-1.xx&_nc_gid=1u-bnjZJxyJCAQjJQ0kH0Q&oh=00_AflkBrwQKbGjMPkna65dSFt1QNdpbLyJFBiBRUsw_sfoqg&oe=69517E5C" alt="">
-<h5>Hình ảnh Trường THCS Ngọc Phụng tuyên truyền phòng chống ma túy</h5>
-            </section>
-
-            <section>
-                <h2>Ngày hội trung thu năm 2025 của Trường THCS Ngọc Phụng</h2>
-                <p> Hòa trong không khí rộn ràng của mùa thu. Sáng ngày 04/10/2025 trường THCS Ngọc Phụng  tổ chức Ngày hội “Vui tết Trung thu năm 2025”.                                                  
-          Đây là ngày hội dành riêng cho các bạn thiếu nhi, ngày mà tình yêu thương của gia đình và nhà trường luôn đong đầy, là dịp để thầy cô và các em học sinh trong trường cùng nhau sẻ chia niềm vui, sự ấm áp.
-           Về dự với ngày hội có sự hiện diện của các vị lãnh đạo, các quý vị đại biểu, các bậc phụ huynh, quý thầy cô giáo cùng hơn 600 học sinh của nhà trường.                                          
-            Chương trình ngày hội với các nội dung:
-1. Tuyên bố lý do, giới thiệu đại biểu
-2. Văn nghệ chào mừng, múa lân 
-3. Trình bày lịch sử và ý nghĩa ngày tết trung thu
-4. Đọc thư chúc mừng ngày tết trung thu của chủ tịch nước
-5. Thi bày mâm cỗ trung thu
-6. Trao giải
-7. Phá cổ.                                                     
-            Tuy  thời gian rất ngắn , chỉ diễn ra trong gần 2 giờ đồng hồ nhưng  chương trình “Vui Tết trung thu”  đã để lại trong lòng các em học sinh nhiều ấn tượng tốt đẹp. Các em hiểu hơn về ý nghĩa của Tết Trung Thu, biết chia sẻ khó  khăn vươn lên trong học tập, nuôi dưỡng những  ước mơ cao đẹp, có cách ứng xử với ông bà, cha mẹ, thầy cô, bạn bè và cộng đồng bằng trái tim nhân ái, quyết tâm vươn lên để xây dựng đất nước phồn vinh, giàu đẹp và đặc biệt là các em được thể hiện tài năng, năng khiếu của bản thân, các em được làm việc đội nhóm để xây dựng tình bạn thêm gắn kết. Từ đó các em có kỹ năng sống tốt hơn.
-           Thay mặt cho ban tổ chức xin trân trọng cảm ơn sự quan tâm của chính quyền địa phương, cảm ơn hội cha mẹ học sinh đã tạo điều kiện, ủng hộ cho nhà trường tổ chức chương trình. Cảm ơn các thầy cô giáo chủ nhiệm mặc dù thời gian triển khai và thực hiện chỉ trong 1,5 ngày nhưng các thầy cô đã rất nhiệt tình trong việc mua sắm và tập luyện cùng học sinh của lớp. Cảm ơn toàn thể các em học sinh, các em đã rất hào hứng, tích cực, các đội thi thể hiện rất tốt, các em r</p>
-            <img src="https://scontent.fthd1-1.fna.fbcdn.net/v/t39.30808-6/558848934_712539748524191_6703266128530923783_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeE-6pMG40Gu8hLCxjeLIAfDiCvrIKK8_diIK-sgorz92Bn-3Y_o3cqZUdXIcqPxs1Y-LKd5P-H0xu8dDLYbJ6Uc&_nc_ohc=yiX9BVtnpe0Q7kNvwErXewH&_nc_oc=AdkCnCrbPrrRXaGCISfmv_RJ9Um17Q2aI7LCyDNgb1wfueSRpq4j0bitCUQbWB55DHK24a_TyCT251NbFDbt7WUN&_nc_zt=23&_nc_ht=scontent.fthd1-1.fna&_nc_gid=dvhW8ZLC27k2vQaYp3DHJA&oh=00_AfnOz2SbumTmuPLO4JyXa0uw18FSg4By5hWCsGmE7ta4Yw&oe=6951A73A" alt="">
-          <h5>Hình ảnh Trường THCS Ngọc Phụng chào đón ngày hội trung thu</h5>
-            </section>
-
-            <section>
-                <h2>Tuyên truyền phòng chống BLHD</h2>
-                <p>Bảo vệ học sinh Giúp học sinh hiểu rõ thế nào là bạo lực học đường (đánh nhau, bắt nạt, xúc phạm, cô lập…). Nâng cao khả năng tự bảo vệ bản thân và biết cách tìm sự giúp đỡ khi bị bạo lực. Nâng cao nhận thức và thái độ Giúp học sinh, giáo viên và phụ huynh nhận thức được tác hại nghiêm trọng của bạo lực đối với thể chất, tinh thần và kết quả học tập. Hình thành thái độ lên án bạo lực, không thờ ơ hay bao che cho hành vi sai trái. Xây dựng môi trường học đường an toàn, lành mạnh Góp phần tạo nên trường học thân thiện, tôn trọng, yêu thương và đoàn kết. Giảm mâu thuẫn, xung đột giữa học sinh, giúp các em yên tâm học tập và rèn luyện. Giáo dục kỹ năng sống Rèn kỹ năng giao tiếp, kiềm chế cảm xúc, giải quyết mâu thuẫn bằng đối thoại hòa bình. Giúp học sinh biết tôn trọng sự khác biệt và ứng xử văn minh. Phòng ngừa và giảm thiểu hậu quả lâu dài Ngăn chặn bạo lực từ sớm, tránh để lại tổn thương tâm lý kéo dài hoặc dẫn đến hành vi vi phạm pháp luật. Góp phần hình thành nhân cách tốt cho học sinh trong tương lai.</p>
-                <img src="https://storage-vnportal.vnpt.vn/gov-tha/7414/FileQuanTriTinTuc/z7280995472107_a1b129a72a2047f5a76e9fc010f5887f639001989241642528.jpg" alt="">
-                <h5>Hình ảnh Trường THCS Ngọc Phụng tuyên truyền phòng chống BLHD</h5>
-            </section>
-            
-            
-            <section>
-                <h1>Thời Khóa Biểu</h1>
-                <p>Thời khóa biểu (Nên zoom lên để đọc).</p>
-                <div class="gallery">
-                     <img src="https://cdn.discordapp.com/attachments/1423966484656296057/1453318568170225686/image.png?ex=694d03e4&is=694bb264&hm=37d962a53dc2c17fd1960370de6188caf0242b3126d1f4e9c2332031da430d1f" alt="Thời khóa biểu của tất cả các lớp">
+    <div class="fixed top-6 right-6 z-[9999] space-y-3">
+        <template x-for="t in toasts" :key="t.id">
+            <div x-show="t.show" x-transition class="bg-white border-l-4 p-5 rounded-2xl shadow-2xl flex items-center gap-4 min-w-[320px]"
+                 :class="t.type === 'success' ? 'border-indigo-500' : 'border-rose-500'">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center" :class="t.type === 'success' ? 'bg-indigo-50 text-indigo-600' : 'bg-rose-50 text-rose-600'">
+                    <i class="fas" :class="t.type === 'success' ? 'fa-check' : 'fa-exclamation'"></i>
                 </div>
-            </section>
-            <section>
-    <h1>📻 Phát Thanh Măng Non</h1>
-    <p>Video hoạt động phát thanh măng non của nhà trường.</p>
-
-    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
-        <iframe 
-            src="https://www.youtube.com/embed/skEL9QdBprc"
-            title="Phát Thanh Măng Non THCS Ngọc Phụng"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-        </iframe>
+                <div>
+                    <p class="font-black text-slate-800 text-sm" x-text="t.title"></p>
+                    <p class="text-xs text-slate-400 font-medium" x-text="t.msg"></p>
+                </div>
+            </div>
+        </template>
     </div>
-</section>
 
+    <div x-show="!isAuth" class="fixed inset-0 z-[5000] bg-slate-50 flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-5xl rounded-[3.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[700px]">
+            <div class="md:w-5/12 bg-indigo-600 p-16 text-white flex flex-col justify-between">
+                <div>
+                    <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center text-3xl mb-8"><i class="fas fa-rocket"></i></div>
+                    <h1 class="text-5xl font-black leading-tight">Trường THCS<br>Ngọc Phụng</h1>
+                    <p class="mt-6 text-indigo-100 opacity-80 leading-relaxed font-medium">Hệ thống quản lý giáo dục chuyên nghiệp với khả năng bảo mật đa tầng và đội ngũ deverloper chuyên nghiệp.</p>
+                </div>
+                <div class="text-[10px] font-bold uppercase tracking-widest opacity-40">Version 9.5.0 Build 2026</div>
+            </div>
+            <div class="md:w-7/12 p-12 md:p-20 flex flex-col justify-center">
+                <div class="flex p-1.5 bg-slate-100 rounded-2xl mb-10 w-fit">
+                    <button @click="authTab = 'login'" :class="authTab === 'login' ? 'bg-white shadow text-indigo-600' : 'text-slate-400'" class="px-8 py-3 rounded-xl font-black text-xs uppercase transition-all">Đăng nhập</button>
+                    <button @click="authTab = 'reg'" :class="authTab === 'reg' ? 'bg-white shadow text-indigo-600' : 'text-slate-400'" class="px-8 py-3 rounded-xl font-black text-xs uppercase transition-all">Đăng ký</button>
+                </div>
+
+               <div x-show="authTab === 'login'" class="animate__animated animate__fadeIn">
+    <h2 class="text-3xl font-black text-slate-800 mb-8">Đăng nhập hệ thống</h2>
+    <div class="space-y-5">
+        <input x-model="fL.u" type="text" placeholder="Tên đăng nhập" class="i-premium">
+        <input x-model="fL.p" type="password" placeholder="Mật khẩu" class="i-premium">
+        <button @click="doLogin()" class="w-full btn-p">Bắt đầu làm việc</button>
+    </div>
+    <div class="mt-8 pt-6 border-t">
+        <p class="text-[10px] text-center font-bold uppercase tracking-widest text-slate-400">
+            Hệ thống quản trị nội bộ EduSmart
+        </p>
+    </div>
+</div>
+
+                <div x-show="authTab === 'reg'" class="animate__animated animate__fadeIn">
+                    <h2 class="text-3xl font-black text-slate-800 mb-6">Tạo tài khoản mới</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <input x-model="fR.name" type="text" placeholder="Họ và tên" class="i-premium col-span-2">
+                        <input x-model="fR.u" type="text" placeholder="Tên đăng nhập" class="i-premium">
+                        <input x-model="fR.p" type="password" placeholder="Mật khẩu" class="i-premium">
+                        <div class="col-span-2 flex gap-4 my-2">
+                            <button @click="fR.role = 'student'" :class="fR.role === 'student' ? 'bg-indigo-600 text-white' : 'bg-slate-100'" class="flex-1 p-4 rounded-xl font-bold text-xs">HỌC SINH</button>
+                            <button @click="fR.role = 'teacher'" :class="fR.role === 'teacher' ? 'bg-indigo-600 text-white' : 'bg-slate-100'" class="flex-1 p-4 rounded-xl font-bold text-xs">GIÁO VIÊN</button>
+                        </div>
+                        <template x-if="fR.role === 'teacher'">
+                            <input x-model="fR.code" type="text" placeholder="Mã xác thực GV " class="i-premium col-span-2 border-amber-200">
+                        </template>
+                        <button @click="doRegister()" class="w-full btn-p col-span-2 mt-4">Gửi yêu cầu đăng ký</button>
+                    </div>
+                </div>
+            </div>
         </div>
-    
-    <footer>
-      <p>&copy; Code by Nguyễn Đình Sơn Tùng</p>
-    </footer>
+    </div>
+
+    <div x-show="isAuth" x-cloak class="app-container">
+        <aside class="sidebar">
+            <div class="p-8 mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white"><i class="fas fa-graduation-cap"></i></div>
+                    <span class="font-black text-xl tracking-tighter">Tung2k13 Dev</span>
+                </div>
+            </div>
+            <nav class="flex-1 px-4 space-y-2">
+                <template x-for="n in navs" :key="n.id">
+                    <button x-show="canView(n.perm)" @click="curTab = n.id"
+                            :class="curTab === n.id ? 'bg-indigo-600 text-white shadow-xl' : 'text-slate-400 hover:bg-slate-50'"
+                            class="w-full flex items-center gap-4 p-4 rounded-2xl font-bold transition-all">
+                        <i class="fas w-6" :class="n.icon"></i>
+                        <span x-text="n.name"></span>
+                    </button>
+                </template>
+            </nav>
+            <div class="p-6 border-t">
+                <div class="bg-slate-50 p-4 rounded-2xl flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center font-black text-indigo-600" x-text="uInfo?.name[0]"></div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-xs font-black truncate" x-text="uInfo?.name"></p>
+                        <p class="text-[9px] font-bold text-indigo-500 uppercase" x-text="uInfo?.role"></p>
+                    </div>
+                    <button @click="logout()" class="text-slate-300 hover:text-rose-500"><i class="fas fa-power-off"></i></button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="viewport">
+            <header class="glass h-24 px-10 flex justify-between items-center sticky top-0 z-40">
+                <h2 class="text-2xl font-black text-slate-800" x-text="navs.find(n=>n.id==curTab).name"></h2>
+                <div class="flex items-center gap-4">
+                    <div class="text-right hidden md:block">
+                        <p class="text-[10px] font-black text-slate-300 uppercase">Hôm nay</p>
+                        <p class="text-sm font-black text-slate-600" x-text="dateStr"></p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="p-10 space-y-10">
+                <div x-show="curTab === 'news'" class="animate__animated animate__fadeIn">
+                    <div x-show="uInfo?.role !== 'student'" class="u-card p-8 mb-10 border-l-4 border-indigo-600">
+                        <h3 class="text-xl font-black mb-6 flex items-center gap-2"><i class="fas fa-pen-nib"></i> Soạn bản tin</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <input x-model="fN.t" type="text" placeholder="Tiêu đề..." class="i-premium">
+                            <input x-model="fN.y" type="text" placeholder="YouTube ID..." class="i-premium">
+                            <textarea x-model="fN.d" placeholder="Nội dung chi tiết..." class="i-premium col-span-2 h-24"></textarea>
+                            <div class="col-span-2 flex justify-end">
+                                <button @click="postNews()" class="btn-p">Đăng tin ngay</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <template x-for="p in news" :key="p.id">
+                            <div class="u-card overflow-hidden">
+                                <div class="aspect-video bg-black">
+                                    <iframe class="w-full h-full" :src="'https://www.youtube.com/embed/'+p.y" frameborder="0"></iframe>
+                                </div>
+                                <div class="p-8">
+                                    <div class="flex justify-between items-start mb-4">
+                                        <span class="text-[10px] font-black text-indigo-600 uppercase" x-text="p.date"></span>
+                                        <button x-show="uInfo?.role === 'admin'" @click="del('news', p.id)" class="text-slate-200 hover:text-rose-500"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                    <h4 class="text-xl font-black text-slate-800 mb-2" x-text="p.t"></h4>
+                                    <p class="text-slate-500 text-sm" x-text="p.d"></p>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <div x-show="curTab === 'sch'" class="animate__animated animate__fadeIn">
+                    <div class="flex justify-between items-end mb-8">
+                        <div>
+                            <h3 class="text-3xl font-black">Thời khóa biểu</h3>
+                            <p class="text-slate-400 font-medium">Lịch học trực quan tuần này</p>
+                        </div>
+                        <button x-show="uInfo?.role !== 'student'" @click="mTarget = 'sch'" class="btn-p">Thêm tiết học</button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+                        <template x-for="day in days">
+                            <div class="space-y-4">
+                                <div class="p-4 bg-slate-800 text-white rounded-2xl text-center font-black text-xs uppercase" x-text="day"></div>
+                                <div class="min-h-[400px] bg-slate-100/50 rounded-[2rem] p-4 space-y-4 border-2 border-dashed border-slate-200">
+                                    <template x-for="s in sch.filter(i=>i.day===day)" :key="s.id">
+                                        <div class="u-card p-4 relative group">
+                                            <img :src="s.img || 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400'" class="w-full h-24 object-cover rounded-xl mb-3">
+                                            <p class="text-[9px] font-black text-indigo-600 uppercase" x-text="s.time"></p>
+                                            <p class="font-black text-slate-800 text-sm" x-text="s.sub"></p>
+                                            <p class="text-[10px] text-slate-400 font-bold mt-1" x-text="'GV: '+s.tea"></p>
+                                            <button x-show="uInfo?.role === 'admin'" @click="del('sch', s.id)" class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-rose-500"><i class="fas fa-times-circle"></i></button>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <div x-show="curTab === 'files'" class="animate__animated animate__fadeIn">
+                    <div x-show="uInfo?.role !== 'student'" class="u-card p-16 border-4 border-dashed border-indigo-100 flex flex-col items-center text-center">
+                        <div class="w-20 h-20 bg-indigo-50 text-indigo-600 rounded-3xl flex items-center justify-center text-3xl mb-6 shadow-inner"><i class="fas fa-upload"></i></div>
+                        <h3 class="text-2xl font-black mb-2">Kho học liệu số</h3>
+                        <p class="text-slate-400 mb-8 max-w-sm">Tải lên giáo án, bài tập hoặc tài liệu tham khảo (Tối đa 5MB)</p>
+                        
+                        <input type="file" id="fileInp" class="hidden" @change="uploadFile($event)">
+                        <button @click="document.getElementById('fileInp').click()" class="btn-p">
+                            Chọn tệp từ thiết bị
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-6 mt-12">
+                        <template x-for="f in files" :key="f.id">
+                            <div class="u-card p-6 text-center relative group">
+                                <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4" :class="f.ext === 'pdf' ? 'text-rose-500' : 'text-blue-500'">
+                                    <i class="fas" :class="f.ext === 'pdf' ? 'fa-file-pdf' : 'fa-file-word'"></i>
+                                </div>
+                                <h5 class="text-[11px] font-black truncate mb-4" x-text="f.name"></h5>
+                                <a :href="f.data" :download="f.name" class="block w-full py-2 bg-indigo-50 text-indigo-600 rounded-lg text-[9px] font-black uppercase">Tải xuống</a>
+                                <button x-show="uInfo?.role === 'admin'" @click="del('files', f.id)" class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-rose-300 hover:text-rose-500"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <div x-show="curTab === 'admin'" class="animate__animated animate__fadeIn">
+                    <div class="u-card overflow-hidden">
+                        <div class="p-8 border-b flex justify-between items-center bg-slate-50/50">
+                            <h3 class="text-xl font-black">Quản lý người dùng</h3>
+                            <button @click="resetDB()" class="text-[10px] font-black text-rose-500 uppercase border border-rose-100 px-4 py-2 rounded-lg">Xóa sạch dữ liệu</button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead class="bg-slate-50 text-[10px] font-black text-slate-400 uppercase">
+                                    <tr>
+                                        <th class="p-6">Thành viên</th>
+                                        <th class="p-6">Tài khoản</th>
+                                        <th class="p-6">Vai trò</th>
+                                        <th class="p-6 text-right">Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template x-for="u in users" :key="u.id">
+                                        <tr class="border-b last:border-0">
+                                            <td class="p-6">
+                                                <div class="flex items-center gap-3">
+                                                    <div class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 font-black text-xs" x-text="u.name[0]"></div>
+                                                    <span class="font-bold text-sm" x-text="u.name"></span>
+                                                </div>
+                                            </td>
+                                            <td class="p-6 font-mono text-xs text-slate-400" x-text="u.u"></td>
+                                            <td class="p-6">
+                                                <span class="px-3 py-1 rounded-full text-[9px] font-black uppercase" :class="u.role === 'admin' ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-600'" x-text="u.role"></span>
+                                            </td>
+                                            <td class="p-6 text-right">
+                                                <button @click="del('users', u.id)" class="text-rose-400 hover:text-rose-600"><i class="fas fa-user-minus"></i></button>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div x-show="mTarget" x-cloak class="fixed inset-0 z-[6000] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-6">
+        <div class="bg-white w-full max-w-lg rounded-[2.5rem] p-10 shadow-2xl animate__animated animate__zoomIn">
+            <h3 class="text-2xl font-black mb-6">Thêm tiết học mới</h3>
+            <div class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <select x-model="fS.day" class="i-premium"><template x-for="d in days"><option :value="d" x-text="d"></option></template></select>
+                    <input x-model="fS.time" type="text" placeholder="Giờ học" class="i-premium">
+                </div>
+                <input x-model="fS.sub" type="text" placeholder="Tên môn học" class="i-premium">
+                <input x-model="fS.tea" type="text" placeholder="Giáo viên" class="i-premium">
+                <input x-model="fS.img" type="text" placeholder="Link ảnh minh họa" class="i-premium">
+                <div class="flex gap-4 pt-6">
+                    <button @click="mTarget = null" class="flex-1 p-4 bg-slate-100 rounded-2xl font-bold">Hủy</button>
+                    <button @click="saveSch()" class="flex-1 btn-p">Lưu lại</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function eduCore() {
+            return {
+                // SYSTEM STATE
+                isAuth: false, authTab: 'login', curTab: 'news', mTarget: null,
+                uInfo: null, db: null, dateStr: '', toasts: [],
+                days: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6'],
+                navs: [
+                    { id: 'news', name: 'Bản tin Radio', icon: 'fa-bullhorn', perm: 'all' },
+                    { id: 'sch', name: 'Thời khóa biểu', icon: 'fa-calendar-alt', perm: 'all' },
+                    { id: 'files', name: 'Kho học liệu', icon: 'fa-cloud', perm: 'all' },
+                    { id: 'admin', name: 'Quản trị viên', icon: 'fa-user-shield', perm: 'admin' }
+                ],
+
+                // FORM DATA
+                fL: { u: '', p: '' },
+                fR: { name: '', u: '', p: '', role: 'student', code: '' },
+                fN: { t: '', d: '', y: '' },
+                fS: { day: 'Thứ 2', time: '', sub: '', tea: '', img: '' },
+
+                // DATABASE STORES
+                users: [], news: [], sch: [], files: [],
+
+                // BOOTSTRAP
+                async startSystem() {
+                    this.dateStr = new Date().toLocaleDateString('vi-VN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                    
+                    const req = indexedDB.open("EduSmart_v9_5", 1);
+                    req.onupgradeneeded = (e) => {
+                        const d = e.target.result;
+                        ["users", "news", "sch", "files"].forEach(s => d.createObjectStore(s, { keyPath: "id", autoIncrement: true }));
+                    };
+                    req.onsuccess = async (e) => {
+                        this.db = e.target.result;
+                        await this.seed();
+                        await this.sync();
+                    };
+                },
+
+                // SEEDING
+                async seed() {
+                    const u = await this.get('users');
+                    if (u.length === 0) {
+                        const tx = this.db.transaction(["users", "news"], "readwrite");
+                        tx.objectStore("users").add({ name: 'Quản trị viên', u: 'admin', p: '123', role: 'admin' });
+                        tx.objectStore("users").add({ name: 'Quản trị viên', u: 'hieutruong', p: '123', role: 'admin' });
+                        tx.objectStore("news").add({ t: 'Chào mừng đã đến', d: 'Hệ thống đã sẵn sàng hoạt động.', y: 'Sc6D_T-08gQ', date: '01/01/2026' });
+                    }
+                },
+
+                // DATABASE HELPERS
+                async sync() {
+                    this.users = await this.get('users');
+                    this.news = (await this.get('news')).reverse();
+                    this.sch = await this.get('sch');
+                    this.files = await this.get('files');
+                },
+
+                get(s) {
+                    return new Promise(res => {
+                        const t = this.db.transaction(s, "readonly");
+                        t.objectStore(s).getAll().onsuccess = (e) => res(e.target.result || []);
+                    });
+                },
+
+                // AUTH LOGIC
+                async doLogin() {
+                    const u = this.users.find(i => i.u === this.fL.u && i.p === this.fL.p);
+                    if (u) {
+                        this.uInfo = u; this.isAuth = true;
+                        this.notify("Thành công", `Xin chào ${u.name}`);
+                    } else {
+                        this.notify("Lỗi", "Tài khoản hoặc mật khẩu sai", "error");
+                    }
+                },
+
+                async doRegister() {
+                    if (!this.fR.name || !this.fR.u || !this.fR.p) return this.notify("Thiếu thông tin", "Vui lòng nhập đủ", "error");
+                    if (this.fR.role === 'teacher' && this.fR.code !== 'gvngocphung') return this.notify("Lỗi mã", "Mã xác thực GV sai", "error");
+                    if (this.users.some(i => i.u === this.fR.u)) return this.notify("Lỗi", "Tên đăng nhập đã tồn tại", "error");
+
+                    const tx = this.db.transaction("users", "readwrite");
+                    await tx.objectStore("users").add({ name: this.fR.name, u: this.fR.u, p: this.fR.p, role: this.fR.role });
+                    this.notify("Thành công", "Đã tạo tài khoản, hãy đăng nhập");
+                    this.authTab = 'login';
+                    await this.sync();
+                },
+
+                quickAuth(r) { this.fL.u = r; this.fL.p = '123'; this.doLogin(); },
+                logout() { this.isAuth = false; this.uInfo = null; },
+
+                // FEATURE LOGIC
+                async postNews() {
+                    if (!this.fN.t || !this.fN.y) return;
+                    const tx = this.db.transaction("news", "readwrite");
+                    await tx.objectStore("news").add({ ...this.fN, date: new Date().toLocaleDateString('vi-VN') });
+                    this.fN = { t: '', d: '', y: '' };
+                    await this.sync();
+                    this.notify("Đã đăng", "Bản tin đã được xuất bản");
+                },
+
+                async saveSch() {
+                    const tx = this.db.transaction("sch", "readwrite");
+                    await tx.objectStore("sch").add({ ...this.fS });
+                    this.fS = { day: 'Thứ 2', time: '', sub: '', tea: '', img: '' };
+                    this.mTarget = null;
+                    await this.sync();
+                },
+
+                // FIX: UPLOAD FILE LOGIC
+                async uploadFile(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    if (file.size > 100 * 1024 * 1024) return this.notify("Lỗi", "File quá 100MB", "error");
+
+                    const reader = new FileReader();
+                    reader.onload = async (ev) => {
+                        const tx = this.db.transaction("files", "readwrite");
+                        await tx.objectStore("files").add({
+                            name: file.name,
+                            ext: file.name.split('.').pop().toLowerCase(),
+                            data: ev.target.result
+                        });
+                        await this.sync();
+                        this.notify("Đã tải lên", file.name);
+                        e.target.value = ''; // Reset input
+                    };
+                    reader.readAsDataURL(file);
+                },
+
+                // UTILS
+                async del(s, id) {
+                    if (!confirm("Bạn muốn xóa?")) return;
+                    const tx = this.db.transaction(s, "readwrite");
+                    await tx.objectStore(s).delete(id);
+                    await this.sync();
+                },
+
+                canView(p) { return p === 'all' || this.uInfo?.role === p; },
+                
+                notify(title, msg, type = 'success') {
+                    const id = Date.now();
+                    this.toasts.push({ id, title, msg, type, show: true });
+                    setTimeout(() => {
+                        const idx = this.toasts.findIndex(i => i.id === id);
+                        if (idx !== -1) this.toasts[idx].show = false;
+                    }, 3000);
+                },
+
+                async resetDB() {
+                    if (!confirm("Xóa toàn bộ dữ liệu hệ thống?")) return;
+                    const dbs = ["users", "news", "sch", "files"];
+                    const tx = this.db.transaction(dbs, "readwrite");
+                    dbs.forEach(s => tx.objectStore(s).clear());
+                    location.reload();
+                }
+            }
+        }
+    </script>
 </body>
 </html>
